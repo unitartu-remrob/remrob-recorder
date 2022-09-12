@@ -18,7 +18,7 @@ FILE_NAME =''
 
 def name_file(path):
     global FILE_NAME
-    max_num = 0
+    max_num = 1
     while True:
         FILE_NAME = os.path.join(path,f'{max_num}.mp4')
         if os.path.exists(FILE_NAME): max_num+=1
@@ -59,7 +59,7 @@ def myapp(_):
                 -video_size 1920x950 \
                 -framerate 25 \
                 -f x11grab \
-                -i :0.0 \
+                -i :2.0 \
                 -t 60 \
                 -y \
                 {FILE_NAME} &')
@@ -68,6 +68,7 @@ def myapp(_):
     
 def myapp_stop(_):
     subprocess.call(["pkill", "ffmpeg"], shell=False)
+    name_file(opt.saving_path)
     return myapp_stop
 
 def quit1(_):
@@ -75,6 +76,7 @@ def quit1(_):
     gtk.main_quit()
 
 def parse_args():
+    global opt
     parser = argparse.ArgumentParser()
     parser.add_argument('--saving_path', default='/home/<user>/', help='Video saving folder')
     opt = parser.parse_args()
